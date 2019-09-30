@@ -44,7 +44,7 @@ bool j1Map::CleanUp()
 	// TODO 2: Make sure you clean up any memory allocated
 	// from tilesets / map
 
-
+	
 	map_file.reset();
 
 	return true;
@@ -64,10 +64,13 @@ bool j1Map::Load(const char* file_name)
 		ret = false;
 	}
 
+	bool loadmap = true;
+
 	if(ret == true)
 	{
 		// TODO 3: Create and call a private function to load and fill
 		// all your map data
+		loadmap = FillMapInfo(map_file.child("map"));
 	}
 
 	// TODO 4: Create and call a private function to load a tileset
@@ -84,4 +87,44 @@ bool j1Map::Load(const char* file_name)
 
 	return ret;
 }
+
+bool j1Map::FillMapInfo(pugi::xml_node& map_info)
+{
+	bool ret = true;
+
+	p2SString orientation = map_info.attribute("orientation").as_string();
+
+	if (orientation == "orthogonal")
+		map.orientation = ORIENTATION::ORTHOGONAL;
+	else if (orientation == "isometric")
+		map.orientation = ORIENTATION::ISOMETRIC;
+	else if (orientation == "hexagonal")
+		map.orientation == ORIENTATION::HEXAGONAL;
+
+	p2SString renderorder = map_info.attribute("renderorder").as_string();
+
+	if (renderorder == "right-down")
+		map.renderorder = RENDERORDER::RIGHT_DOWN;
+	else if (renderorder == "right-up")
+		map.renderorder = RENDERORDER::RIGHT_UP;
+	else if (renderorder == "left-down")
+		map.renderorder = RENDERORDER::LEFT_DOWN;
+	else if (renderorder == "left-up")
+		map.renderorder = RENDERORDER::LEFT_UP;
+
+	map.width = map_info.attribute("width").as_uint();
+	map.height = map_info.attribute("height").as_uint();
+	map.tilewidth = map_info.attribute("tilewidht").as_uint();
+	map.tileheight = map_info.attribute("tileheight").as_uint();
+
+}
+
+
+bool j1Map::FillTileSet()
+{
+
+}
+
+
+
 
