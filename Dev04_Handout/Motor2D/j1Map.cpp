@@ -34,6 +34,7 @@ void j1Map::Draw()
 	// TODO 5: Prepare the loop to iterate all the tiles in a layer
 
 	p2List_item<MapLayer*>* item_layer = data.layers.start;
+	uint tile_id;
 
 	while (item_layer != NULL)
 	{
@@ -44,7 +45,13 @@ void j1Map::Draw()
 		{
 			for (int j = 0; j < l->height; j++)
 			{
+				tile_id = l->gid[l->Get(i, j)];
 
+				if(tile_id != 0)
+				{
+					
+				}
+		
 			}
 		}
 	}
