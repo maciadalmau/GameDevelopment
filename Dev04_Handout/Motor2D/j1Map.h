@@ -29,7 +29,8 @@ struct MapLayer
 struct TileSet
 {
 	
-
+	// TODO 7: Create a method that receives a tile id and returns it's Rect
+	SDL_Rect getTileRect(int id) const;
 	
 
 	p2SString			name;
@@ -45,12 +46,6 @@ struct TileSet
 	int					num_tiles_height;
 	int					offset_x;
 	int					offset_y;
-
-	// TODO 7: Create a method that receives a tile id and returns it's Rect
-	SDL_Rect getTileRect(int firstgid)
-	{
-		
-	}
 
 };
 
@@ -99,6 +94,7 @@ public:
 	bool Load(const char* path);
 
 	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
+	iPoint MapToWorld(int x, int y) const;
 
 private:
 

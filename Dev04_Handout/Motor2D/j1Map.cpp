@@ -49,7 +49,12 @@ void j1Map::Draw()
 
 				if(tile_id != 0)
 				{
+					SDL_Texture* texture = data.tilesets.start->data->texture;
+					iPoint position = MapToWorld(i, j);
+					SDL_Rect* sect = &data.tilesets.start->data->getTileRect(tile_id);
 					
+					App->render->Blit(texture, position.x, position.y, sect);
+
 				}
 		
 			}
@@ -60,6 +65,28 @@ void j1Map::Draw()
 
 	// TODO 9: Complete the draw function
 
+}
+
+iPoint j1Map::MapToWorld(int x, int y) const
+{
+	iPoint ret;
+
+	ret.x = x * data.tile_width;
+	ret.y = y * data.tile_height;
+
+	return ret;
+}
+
+SDL_Rect TileSet::getTileRect(int id) const
+{
+	int relative_id = id - firstgid;
+	SDL_Rect rect;
+	rect.w = tile_width;
+	rect.h = tile_height;
+	rect.x = margin + ((rect.w+spacing) * (relative_id % num_tiles_width));
+	rect.y = margin + ((rect.h + spacing) * (relative_id / num_tiles_width));
+
+	return rect;
 }
 
 

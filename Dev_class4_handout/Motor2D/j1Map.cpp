@@ -76,6 +76,9 @@ bool j1Map::Load(const char* file_name)
 	// TODO 4: Create and call a private function to load a tileset
 	// remember to support more any number of tilesets!
 	
+	bool loadtiles = FillTileSet();
+
+
 
 	if(ret == true)
 	{
@@ -117,12 +120,36 @@ bool j1Map::FillMapInfo(pugi::xml_node& map_info)
 	map.tilewidth = map_info.attribute("tilewidht").as_uint();
 	map.tileheight = map_info.attribute("tileheight").as_uint();
 
+	return ret;
 }
 
 
 bool j1Map::FillTileSet()
 {
+	bool ret = true;
 
+
+	for (pugi::xml_node tileset = map_file.child("map").child("tileset"); tileset; tileset = tileset.next_sibling("tileset"))
+	{
+		TileSet* tile = new TileSet;
+
+		tile->name = tileset.attribute("name").as_string();
+		tile->firstgid = tileset.attribute("firstgid").as_uint();
+		tile->tilewidth = tileset.attribute("tilewidth").as_uint();
+		tile->tileheight = tileset.attribute("tileheight").as_uint();
+		tile->spacing = tileset.attribute("spacing").as_uint();
+		tile->margin = tileset.attribute("margin").as_uint();
+
+		tile->name_file = folder.GetString();
+		tile->name_file = map_file.child("map").child("tileset").attribute("source").as_string();
+
+		tile->width_file = map_file.child("map").child("tileset").child("image").attribute("width").as_uint();
+		tile->height_file = map_file.child("map").child("tileset").child("image").attribute("height").as_uint();
+
+		tilesets.add(tile);
+	}
+
+	return ret;
 }
 
 
